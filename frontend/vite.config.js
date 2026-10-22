@@ -7,6 +7,7 @@ import react from '@vitejs/plugin-react'
 // app also loads through a load balancer or custom domain. Vite otherwise answers
 // "Blocked request" (403) for any host other than localhost or an IP address.
 export default defineConfig({
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   server: { port: 3000, strictPort: true, host: true, allowedHosts: true },
   preview: { port: 3000, strictPort: true, host: true, allowedHosts: true },

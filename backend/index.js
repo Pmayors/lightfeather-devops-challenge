@@ -5,7 +5,7 @@ console.log(require('./config'))
 console.log(CORS_ORIGIN)
 
 const ID = uuidv4({}, false, 0)
-const PORT = 8080
+const PORT = Number(process.env.PORT) || 8080
 
 const app = express()
 app.use(express.json())
@@ -21,6 +21,6 @@ app.get(/.*/, (req, res) => {
     res.json({id: ID})
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Backend started on ${PORT}. ctrl+c to exit`)
 })
