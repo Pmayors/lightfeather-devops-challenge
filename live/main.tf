@@ -1,7 +1,8 @@
 # Infrastructure for the LightFeather challenge.
 # One VPC in us-east-1, shared by dev, stage, and prod.
-# Each environment gets one public subnet and one private subnet.
-# Private subnets have no default route unless a NAT gateway is turned on.
+# Each environment gets one public subnet, one private subnet, and ECS services
+# for the frontend and the backend. Images live in ECR. One ALB fronts all three
+# environments by URL path so a second and third load balancer are not required.
 
 check "private_tasks_need_nat" {
   assert {
@@ -24,4 +25,27 @@ module "network" {
       az_index     = cfg.az_index
     }
   }
+}
+
+module "ecr" {
+  source = "./modules/ecr"
+
+  project      = var.project
+  repositories = toset(["backend", "frontend"])
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  project                        = var.project
+  aws_region                     = var.aws_region
+  vpc_id                         = module.network.vpc_id
+  vpc_cidr                       = module.network.vpc_cidr
+  public_subnet_ids              = module.network.public_subnet_ids
+  private_subnet_ids             = module.network.private_subnet_ids
+  alb_subnet_ids                 = values(module.network.public_subnet_ids)
+  repository_urls                = module.ecr.repository_urls
+  image_tag                      = var.image_tag
+  environments                   = var.environments
+  place_tasks_in_private_subnets = var.place_tasks_in_private_subnets
 }
