@@ -1,8 +1,6 @@
-# Infrastructure for the LightFeather challenge.
-# One VPC in us-east-1, shared by dev, stage, and prod.
-# Each environment gets one public subnet, one private subnet, and ECS services
-# for the frontend and the backend. Images live in ECR. One ALB fronts all three
-# environments by URL path so a second and third load balancer are not required.
+# I put dev, stage, and prod in one VPC in us-east-1.
+# Each environment gets one public subnet, one private subnet, and two ECS services.
+# Images sit in ECR. One load balancer splits them by path so I do not pay for three.
 
 check "private_tasks_need_nat" {
   assert {

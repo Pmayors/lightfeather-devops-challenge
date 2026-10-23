@@ -86,9 +86,8 @@ resource "aws_ecs_service" "app" {
   desired_count   = each.value.desired_count
   launch_type     = "FARGATE"
 
-  # A running service must keep serving during a rolling update only when more
-  # than one task is affordable. With a single task, allow the old one to stop
-  # so a deploy does not briefly run two copies.
+  # I set the minimum healthy percent to 0 because I only run one task.
+  # Otherwise a deploy would start a second copy before the first one stops.
   deployment_minimum_healthy_percent = 0
   deployment_maximum_percent         = 200
 
@@ -111,9 +110,8 @@ resource "aws_ecs_service" "app" {
 
   health_check_grace_period_seconds = 60
 
-  # The pipeline registers a new task definition revision for each image tag
-  # and sets the running count. Terraform keeps the service, network, and load
-  # balancer wiring, and must not roll those back on the next apply.
+  # Jenkins registers a new task definition and sets the running count.
+  # I ignore those two fields so the next terraform apply does not roll the deploy back.
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }

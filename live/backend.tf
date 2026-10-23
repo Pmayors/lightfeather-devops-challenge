@@ -1,9 +1,7 @@
-# Remote state is intentionally not active in this root module.
-# The state bucket has to exist before this configuration can use it, so it is
-# created by the separate stack in ../bootstrap (S3 plus a DynamoDB lock table).
+# I left remote state commented out. The bucket has to exist before this stack can use it.
+# I create that bucket and the DynamoDB lock table from ../bootstrap.
 #
-# After that stack has been applied, uncomment the block below, fill in the
-# bucket name, and run:
+# After I apply bootstrap, I uncomment the block, put my bucket name in, and run:
 #   terraform init -migrate-state
 #
 # terraform {

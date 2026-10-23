@@ -25,8 +25,7 @@ locals {
     }
   }
 
-  # Lower number wins. The API rule must be ahead of the frontend rule because
-  # /dev/api also matches the broader /dev prefix.
+  # I give the API rule the lower number so /dev/api is not swallowed by /dev.
   environment_priority = {
     for index, name in sort(keys(var.environments)) :
     name => (index + 1) * 10

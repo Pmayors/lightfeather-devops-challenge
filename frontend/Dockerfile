@@ -1,5 +1,6 @@
-# The dev server (`npm start`) is only for local work. ECS serves the Vite build
-# through nginx so the API URL and the /<env>/ base path are fixed in the files.
+# I replaced `npm start` (the Vite dev server on port 3000).
+# The image has to run the production build so VITE_API_URL and VITE_BASE get written into the files.
+# nginx serves that build on port 80.
 FROM node:24-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./

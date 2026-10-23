@@ -1,8 +1,7 @@
 /*
- * Plans the stack in live/ and applies that same plan only when asked.
- * Leave APPLY unchecked to plan only.
- *
- * The agent is assumed to have AWS CLI v2, Docker, curl, jq, nodejs, and terraform.
+ * I plan the stack in live/ on every run.
+ * I only apply that saved plan when I check APPLY, and Jenkins still asks me to confirm.
+ * The agent needs AWS CLI v2, Docker, curl, jq, nodejs, and terraform.
  */
 
 pipeline {

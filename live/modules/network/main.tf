@@ -80,9 +80,8 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# Private subnets have only the VPC local route unless a NAT gateway is turned on.
-# That keeps the default stack off the NAT hourly charge. ECS tasks therefore
-# start in the public subnets, with ingress limited to the load balancer.
+# I leave the private route table without a default route so I do not pay for NAT.
+# The tasks start in the public subnets, and only the load balancer can reach them.
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
 

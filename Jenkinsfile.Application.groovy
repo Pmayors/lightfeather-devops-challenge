@@ -1,9 +1,7 @@
 /*
- * Builds the backend and frontend images, pushes them to ECR, and rolls the
- * matching ECS services. Terraform must already have created the cluster,
- * repositories, load balancer, and services.
- *
- * The agent is assumed to have AWS CLI v2, Docker, curl, jq, nodejs, and terraform.
+ * I build both images, push them to ECR, and roll the ECS services for one environment.
+ * Terraform has to create the cluster, repositories, load balancer, and services first.
+ * The agent needs AWS CLI v2, Docker, curl, jq, nodejs, and terraform.
  */
 
 pipeline {

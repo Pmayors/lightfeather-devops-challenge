@@ -52,8 +52,8 @@ resource "aws_vpc_security_group_ingress_rule" "task_from_alb" {
   ip_protocol                  = "tcp"
 }
 
-# Tasks have a public IP so they can reach ECR and CloudWatch without a NAT
-# gateway. Ingress is still only the load balancer. DNS stays inside the VPC.
+# I give the tasks a public IP so they can reach ECR and CloudWatch without a NAT gateway.
+# The only way in is still the load balancer. DNS stays inside the VPC.
 resource "aws_vpc_security_group_egress_rule" "task_dns_udp" {
   for_each = local.services
 
